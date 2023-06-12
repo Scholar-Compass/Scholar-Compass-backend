@@ -1,16 +1,16 @@
 import re
 import pandas as pd
+from os import listdir
 
-def insert(df, row):
-    
+def insert(df, row): 
     if row[4].replace(" ", "") != "":
+        row[4] = re.sub(" +", " ", row[4])
         df = pd.concat([df, pd.DataFrame([row], columns=df.columns)], ignore_index=True)
         row[4] = ""
     return df
 
-s = "北京大学.md              上海财经大学.md          中央财经大学.md          北京科技大学.md          北京外国语大学.md 上海交通大学.md          中国传媒大学.md          北京师范大学.md          中国科学院大学.md        北京大学医学部.md"
-s = re.sub(" +", " ", s)
-files = s.split(" ")
+
+files = listdir("md")
 
 for md_file in files:
     f = open("md/" + md_file, "r", encoding="utf-8")

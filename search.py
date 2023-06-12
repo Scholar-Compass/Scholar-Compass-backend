@@ -8,20 +8,20 @@ from scipy import spatial  # for calculating vector similarities for search
 from dotenv import load_dotenv
 
 load_dotenv()
+openai.api_key = os.getenv('OPENAI_API_KEY')
+openai.organization = os.getenv('OPENAI_ORGANIZATION')
 
 # models
 EMBEDDING_MODEL = "text-embedding-ada-002"
 GPT_MODEL = "gpt-3.5-turbo"
 
-load_dotenv()
-openai.api_key = os.getenv('OPENAI_API_KEY')
-embeddings_path = "data/北科.csv"
-
-df = pd.read_csv(embeddings_path)
+all_df = []
+for csv in os.listdir("embedding"):
+    all_df.append(pd.read_csv("embedding/" + csv))
+df = pd.concat(all_df)
 
 # convert embeddings from CSV str type back to list type
 df['embedding'] = df['embedding'].apply(ast.literal_eval)
-
 
 # search function
 def strings_ranked_by_relatedness(
@@ -99,6 +99,7 @@ def ask(
     response_message = response["choices"][0]["message"]["content"]
     return response_message
 
-
-res = ask("北科大的宿舍条件怎么样？")
-print(res)
+if __name__ == "__main__":
+    q = "北邮的宿舍条件怎么样？"
+    res = ask(q)
+    print(res)

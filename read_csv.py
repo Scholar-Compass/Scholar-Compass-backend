@@ -1,7 +1,11 @@
 import pandas as pd
+import os
 
-# csv_file = "csv/北京科技大学.csv"
-csv_file = "data/北科.csv"
-df = pd.read_csv(csv_file)
-
+all_df = []
+for csv in os.listdir("embedding"):
+    all_df.append(pd.read_csv("embedding/" + csv))
+df = pd.concat(all_df)
 print(df)
+
+for i in df["text"]:
+    print(i[:50])

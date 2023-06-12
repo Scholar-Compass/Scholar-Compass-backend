@@ -1,0 +1,1 @@
+curl -d "question=北邮伙食怎么样" -X POST http://10.32.39.83:8080/query
