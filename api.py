@@ -15,11 +15,11 @@ def query():
     ans = search.ask(question)
     data = {"answer" : ans}
     json_string = json.dumps(data, ensure_ascii = False)
-    print(json_string)
+    # print(json_string)
     # creating a Response object to set the content type and the encoding
     response = Response(json_string, content_type="application/json; charset=utf-8")
-    # print(response, response.data)
     response.headers.add('Access-Control-Allow-Origin', '*')
+    print(response, response.data)
     return response
     
 if __name__ == "__main__":
