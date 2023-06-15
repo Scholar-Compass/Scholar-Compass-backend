@@ -1,6 +1,6 @@
 import re
 import pandas as pd
-from os import listdir
+import os
 
 def insert(df, row): 
     if row[4].replace(" ", "") != "":
@@ -9,20 +9,19 @@ def insert(df, row):
         row[4] = ""
     return df
 
-
-files = listdir("md")
-
-for md_file in files:
-    f = open("md/" + md_file, "r", encoding="utf-8")
+def process_md(file_path, store_path, links = None, uni_md = True):
+    # print(file_path)
+    f = open(file_path, "r", encoding="utf-8")
     row = [""] * 5
-    para = ""
     df = pd.DataFrame(columns=["H1", "H2", "H3", "H4", "paragraph"])
 
     while True:
-        line = f.readline().replace("\n", " ")
-        line = re.sub(" +", " ", line)
+        line = f.readline()
         if line == "":
+            df = insert(df, row)
             break
+        line = re.sub(" +", " ", line.replace("\n", " "))
+        # print(line)
         line_split = line.split(" ")
         if line_split[0] == "#":
             df = insert(df, row)
@@ -38,7 +37,20 @@ for md_file in files:
             row[3] = line_split[1]
         else:
             row[4] += line
-    
-    # print(df)
-    csv_file = md_file.replace(".md", ".csv")
-    df.to_csv("csv/" + csv_file, encoding='utf-8', index=False)
+
+    if uni_md and  "https" in df.loc[0]["paragraph"]:
+        uni = file_path.split("/")[-1].split(".")[0]
+        links[uni] = df.loc[0]["paragraph"]
+        df = df.drop([0])
+    df.to_csv(store_path, index=False)
+
+
+if __name__ == "__main__":
+    links = {}
+    for f in os.listdir("md"):
+        process_md("md/" + f, "csv/" + f.replace(".md", ".csv"), links)
+    links_df = pd.Series(links).reset_index()
+    links_df.columns = ["university", "links"]
+    links_df.to_csv("other_csv/links.csv", index=False)
+    for f in os.listdir("other_md"):
+        process_md("other_md/" + f, "csv/" + f.replace(".md", ".csv"), uni_md=False)

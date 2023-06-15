@@ -29,8 +29,8 @@ for csv_file in files:
         # print(f"Batch {batch_start} to {batch_end - 1}")
         response = openai.Embedding.create(model = EMBEDDING_MODEL, input = list(batch.values))
         # print(response)
-        # for i, be in enumerate(response["data"]):
-        #     assert i == be["index"]  # double check embeddings are in same order as input
+        for i, be in enumerate(response["data"]):
+            assert i == be["index"]  # double check embeddings are in same order as input
         batch_embeddings = [e["embedding"] for e in response["data"]]
         embeddings.extend(batch_embeddings)
 
