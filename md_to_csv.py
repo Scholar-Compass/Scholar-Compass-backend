@@ -25,16 +25,16 @@ def process_md(file_path, store_path, links = None, uni_md = True):
         line_split = line.split(" ")
         if line_split[0] == "#":
             df = insert(df, row)
-            row[0] = line_split[1]
+            row[0] = " ".join(line_split[1:])
         elif line_split[0] == "##":
             df = insert(df, row)
-            row[1] = line_split[1]
+            row[1] = " ".join(line_split[1:])
         elif line_split[0] == "###":
             df = insert(df, row)
-            row[2] = line_split[1]
+            row[2] = " ".join(line_split[1:])
         elif line_split[0] == "####":
             df = insert(df, row)
-            row[3] = line_split[1]
+            row[3] = " ".join(line_split[1:])
         else:
             row[4] += line
 

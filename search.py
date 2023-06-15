@@ -60,18 +60,13 @@ def query_message(
         token_budget: int
 ) -> str:
     """Return a message for GPT, with relevant source texts pulled from a dataframe."""
-    strings, relatednesses = strings_ranked_by_relatedness(query, df)
-    introduction = "Use the following pieces of context to answer the question at the end. If you don't know the " \
-                   "answer, just say that you don't know, don't try to make up an answer. Answer the question in " \
-                   "a professional tone and provides objective response."
-    question = f"\n\nQuestion: {query}"
+    paragraph, relatednesses = strings_ranked_by_relatedness(query, df)
+    introduction = "根据以下提供的“大学信息”作为资料进行回答。如果你不知道答案，就说“我不知道”，不要擅自进行回答。问题在最后。"
+    question = f"\n\n问题: {query}"
     message = introduction
-    for string in strings:
-        next_article = f'\n\nCollege information section:\n"""\n{string}\n"""'
-        if (
-                num_tokens(message + next_article + question, model=model)
-                > token_budget
-        ):
+    for para in paragraph:
+        next_article = f'\n\n大学信息:\n"""\n{para}\n"""'
+        if num_tokens(message + next_article + question, model=model) > token_budget:
             break
         else:
             message += next_article
@@ -103,15 +98,20 @@ def ask(
 
 
 def add_link(paragraph):
+    all_links = []
     for i, row in links_df.iterrows():
         if row["university"] in paragraph:
-            paragraph += f"\n{row['university']}相关文档: {row['link']}"
+            all_links.append((row["university"], row["link"]))
+    if 0 < len(all_links) and len(all_links) < 5:
+        paragraph += "\n\n相关文档："
+        for uni, link in all_links:
+            paragraph += f"\n{uni}: {link}"
     return paragraph
 
 
 if __name__ == "__main__":
-    q = "北京邮电大学伙食怎么样怎么样？"
+    q = "北理工学习氛围怎么样"
     res = ask(q)
-    print(res)
+    # print(res)
     res = add_link(res)
     print(res)
