@@ -12,8 +12,9 @@ def query():
     data = ast.literal_eval(request.data.decode("utf-8"))
     question = data["question"]
     # question = request.form["question"]
-    ans = search.ask(question)
-    data = {"answer" : ans}
+    answer = search.ask(question)
+    answer = search.add_link(answer)
+    data = {"answer" : answer}
     json_string = json.dumps(data, ensure_ascii = False)
     # print(json_string)
     # creating a Response object to set the content type and the encoding

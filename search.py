@@ -23,6 +23,8 @@ df = pd.concat(all_df)
 # convert embeddings from CSV str type back to list type
 df['embedding'] = df['embedding'].apply(ast.literal_eval)
 
+links_df = pd.read_csv("csv_other/links.csv")
+
 # search function
 def strings_ranked_by_relatedness(
         query: str,
@@ -99,7 +101,17 @@ def ask(
     response_message = response["choices"][0]["message"]["content"]
     return response_message
 
+
+def add_link(paragraph):
+    for i, row in links_df.iterrows():
+        if row["university"] in paragraph:
+            paragraph += f"\n{row['university']}相关文档: {row['link']}"
+    return paragraph
+
+
 if __name__ == "__main__":
-    q = "北邮的宿舍条件怎么样？"
+    q = "北京邮电大学伙食怎么样怎么样？"
     res = ask(q)
+    print(res)
+    res = add_link(res)
     print(res)

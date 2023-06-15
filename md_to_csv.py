@@ -51,7 +51,7 @@ if __name__ == "__main__":
         process_md("md_uni/" + f, "csv_to_embed/" + f.replace(".md", ".csv"), links)
 
     links_df = pd.Series(links).reset_index()
-    links_df.columns = ["university", "links"]
+    links_df.columns = ["university", "link"]
     links_df.to_csv("csv_other/links.csv", index=False)
     
     for f in os.listdir("md_other"):
