@@ -38,7 +38,7 @@ def process_md(file_path, store_path, links = None, uni_md = True):
         else:
             row[4] += line
 
-    if uni_md and  "https" in df.loc[0]["paragraph"]:
+    if uni_md and "https" in df.loc[0]["paragraph"]:
         uni = file_path.split("/")[-1].split(".")[0]
         links[uni] = df.loc[0]["paragraph"]
         df = df.drop([0])
@@ -47,10 +47,12 @@ def process_md(file_path, store_path, links = None, uni_md = True):
 
 if __name__ == "__main__":
     links = {}
-    for f in os.listdir("md"):
-        process_md("md/" + f, "csv/" + f.replace(".md", ".csv"), links)
+    for f in os.listdir("md_uni"):
+        process_md("md_uni/" + f, "csv_to_embed/" + f.replace(".md", ".csv"), links)
+
     links_df = pd.Series(links).reset_index()
     links_df.columns = ["university", "links"]
-    links_df.to_csv("other_csv/links.csv", index=False)
-    for f in os.listdir("other_md"):
-        process_md("other_md/" + f, "csv/" + f.replace(".md", ".csv"), uni_md=False)
+    links_df.to_csv("csv_other/links.csv", index=False)
+    
+    for f in os.listdir("md_other"):
+        process_md("md_other/" + f, "csv_to_embed/" + f.replace(".md", ".csv"), uni_md=False)
