@@ -39,8 +39,10 @@ def process_md(file_path, store_path, links = None, uni_md = True):
             row[4] += line
 
     if uni_md and "https" in df.loc[0]["paragraph"]:
-        uni = file_path.split("/")[-1].split(".")[0]
-        links[uni] = df.loc[0]["paragraph"]
+        link = df.loc[0]["paragraph"].replace(" ", "")
+        uni_alias = df.loc[1]["H1"].replace(" ", "").split("/")
+        for nickname in uni_alias:
+            links[nickname] = link
         df = df.drop([0])
     df.to_csv(store_path, index=False)
 
