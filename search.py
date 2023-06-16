@@ -110,10 +110,10 @@ if __name__ == "__main__":
     # print(res)
     history = []
     while True:
-        if len(history) > 3:
-            history = history[-3:]
+        # if len(history) > 3:
+        #     history = history[-3:]
         q = input("--------------------------------------------\n问题：")
-        print(f"history: {len(history)} {history}")
+        # print(f"history: {len(history)} {history}")
         a = ask(q, history)
         print(add_link(a))
-        history.append((q, a))
+        # history.append((q, a))
