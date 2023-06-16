@@ -13,10 +13,10 @@ openai.api_key = os.getenv('OPENAI_API_KEY')
 openai.organization = os.getenv('OPENAI_ORGANIZATION')
 
 EMBEDDING_MODEL = "text-embedding-ada-002"
-# GPT_MODEL = "gpt-3.5-turbo"
-# TOKEN_BUDGET = 4096
-GPT_MODEL = "gpt-3.5-turbo-16k"
-TOKEN_BUDGET = 16000
+GPT_MODEL = "gpt-3.5-turbo"     # can handle 北邮/港大/南开+宿舍
+TOKEN_BUDGET = 4096
+# GPT_MODEL = "gpt-3.5-turbo-16k"   # can't handle 北邮/港大/南开+宿舍
+# TOKEN_BUDGET = 16000
 
 all_df = []
 for csv in os.listdir("embedding"):
@@ -56,6 +56,7 @@ def query_message(query, token_budget, query_history = ""):
     for para in paragraph:
         next_article = f'\n\n大学信息:\n"""\n{para}\n"""'
         if num_tokens(message + next_article + question) > token_budget:
+            print("MAXOUT!!!!!!!!!!!!!!!!!!!!!!")
             break
         else:
             message += next_article
@@ -104,6 +105,7 @@ def add_link(paragraph):
 
 
 if __name__ == "__main__":
+    print(f"EMBEDDING_MODEL: {EMBEDDING_MODEL}    GPT_MODEL: {GPT_MODEL}    TOKEN_BUDGET: {TOKEN_BUDGET}")
     # q = "北理工学习氛围怎么样"
     # res = ask(q)
     # res = add_link(res)
