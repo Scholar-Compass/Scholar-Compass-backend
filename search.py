@@ -13,8 +13,10 @@ openai.api_key = os.getenv('OPENAI_API_KEY')
 openai.organization = os.getenv('OPENAI_ORGANIZATION')
 
 EMBEDDING_MODEL = "text-embedding-ada-002"
-GPT_MODEL = "gpt-3.5-turbo"
-TOKEN_BUDGET = 4096
+# GPT_MODEL = "gpt-3.5-turbo"
+# TOKEN_BUDGET = 4096
+GPT_MODEL = "gpt-3.5-turbo-16k"
+TOKEN_BUDGET = 16000
 
 all_df = []
 for csv in os.listdir("embedding"):
