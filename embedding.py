@@ -5,8 +5,8 @@ from dotenv import load_dotenv
 
 
 load_dotenv()
-openai.api_key = os.getenv('OPENAI_API_KEY')
-openai.organization = os.getenv('OPENAI_ORGANIZATION')
+openai.api_key = os.getenv("OPENAI_API_KEY")
+openai.organization = os.getenv("OPENAI_ORGANIZATION")
 
 EMBEDDING_MODEL = "text-embedding-ada-002"  # OpenAI's best embeddings as of Apr 2023
 BATCH_SIZE = 1000  # you can submit up to 2048 embedding inputs per request
@@ -18,11 +18,13 @@ def embed(text, store_path):
         batch_end = batch_start + BATCH_SIZE
         batch = text[batch_start:batch_end]
         response = openai.Embedding.create(
-            model = EMBEDDING_MODEL,
-            input = list(batch.values),
+            model=EMBEDDING_MODEL,
+            input=list(batch.values),
         )
         for i, be in enumerate(response["data"]):
-            assert i == be["index"]  # double check embeddings are in same order as input
+            assert (
+                i == be["index"]
+            )  # double check embeddings are in same order as input
         batch_embeddings = [e["embedding"] for e in response["data"]]
         embeddings.extend(batch_embeddings)
 
@@ -32,5 +34,7 @@ def embed(text, store_path):
 
 if __name__ == "__main__":
     for f in os.listdir("csv_to_embed"):
-        text = pd.read_csv("csv_to_embed/" + f).apply(lambda x: ' '.join(x.dropna().astype(str)), axis=1)
+        text = pd.read_csv("csv_to_embed/" + f).apply(
+            lambda x: " ".join(x.dropna().astype(str)), axis=1
+        )
         embed(text, "embedding/" + f)

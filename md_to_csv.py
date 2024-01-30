@@ -2,14 +2,16 @@ import re
 import pandas as pd
 import os
 
-def insert(df, row): 
+
+def insert(df, row):
     if row[4].replace(" ", "") != "":
         row[4] = re.sub(" +", " ", row[4])
         df = pd.concat([df, pd.DataFrame([row], columns=df.columns)], ignore_index=True)
         row[4] = ""
     return df
 
-def process_md(file_path, store_path, links = None, uni_md = True):
+
+def process_md(file_path, store_path, links=None, uni_md=True):
     # print(file_path)
     f = open(file_path, "r", encoding="utf-8")
     row = [""] * 5
@@ -59,6 +61,8 @@ if __name__ == "__main__":
     links_df = pd.Series(links).reset_index()
     links_df.columns = ["university", "link"]
     links_df.to_csv("csv_other/links.csv", index=False)
-    
+
     for f in os.listdir("md_other"):
-        process_md("md_other/" + f, "csv_to_embed/" + f.replace(".md", ".csv"), uni_md=False)
+        process_md(
+            "md_other/" + f, "csv_to_embed/" + f.replace(".md", ".csv"), uni_md=False
+        )
