@@ -1,12 +1,12 @@
 # imports
 import ast  # for converting embeddings saved as strings back to arrays
 import os
+
 import openai  # for calling the OpenAI API
 import pandas as pd  # for storing text and embeddings data
 import tiktoken  # for counting tokens
-from scipy import spatial  # for calculating vector similarities for search
 from dotenv import load_dotenv
-
+from scipy import spatial  # for calculating vector similarities for search
 
 load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")

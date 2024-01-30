@@ -1,8 +1,8 @@
-import pandas as pd
-import openai
 import os
-from dotenv import load_dotenv
 
+import openai
+import pandas as pd
+from dotenv import load_dotenv
 
 load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")

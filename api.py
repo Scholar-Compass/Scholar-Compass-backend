@@ -1,7 +1,9 @@
-import json
-import search
-from flask import Flask, request, jsonify, Response
 import ast
+import json
+
+from flask import Flask, Response, jsonify, request
+
+import search
 
 app = Flask(__name__)
 

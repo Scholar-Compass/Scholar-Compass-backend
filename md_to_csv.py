@@ -1,6 +1,7 @@
-import re
-import pandas as pd
 import os
+import re
+
+import pandas as pd
 
 
 def insert(df, row):
