@@ -1,6 +1,0 @@
-openai
-pandas
-tiktoken
-scipy
-python-dotenv
-flask
