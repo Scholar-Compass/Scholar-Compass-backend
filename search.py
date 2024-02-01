@@ -79,13 +79,7 @@ def ask(query, history=[]):
         query_history += q
 
     message = query_message(query, token_budget, query_history)
-    messages.append(
-        {
-            "role": "user",
-            "content": message
-            + "\n\nMUST ANSWER IN ENGLISH\nMUST ANSWER IN ENGLISH\nMUST ANSWER IN ENGLISH\nMUST ANSWER IN ENGLISH",
-        }
-    )
+    messages.append({"role": "user", "content": message})
 
     response = openai.ChatCompletion.create(
         model=GPT_MODEL,
@@ -107,8 +101,7 @@ def add_link(paragraph):
             link_unique.add(link)
 
     if 0 < len(all_links) and len(all_links) < 5:
-        # paragraph += "\n\n相关文档："
-        paragraph += "\n\nReference："
+        paragraph += "\n\n相关文档："
         for uni, link in all_links:
             paragraph += f"\n{uni}: {link}"
     return paragraph

@@ -58,10 +58,6 @@ api.py <-->|<code>search.py</code>| OpenAI[OpenAI API]
 
    2. 向`openai.ChatCompletion`提问并返回答案。
 
-   > [!WARNING]
-   >
-   > [`983d474`](https://github.com/Scholar-Compass/Scholar-Compass-backend/commit/983d4747810aa3e0b64295499f6c9df4622b494b)给每次提问强行加了“MUST ANSWER IN ENGLISH”，恐怕需要回退。
-
 2. `add_link()`
 
    用`csv_other/links.csv`匹配校名，添加相应链接。
