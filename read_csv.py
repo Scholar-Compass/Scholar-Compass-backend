@@ -1,5 +1,6 @@
-import pandas as pd
 import os
+
+import pandas as pd
 
 all_df = []
 for csv in os.listdir("embedding"):
